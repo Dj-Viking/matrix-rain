@@ -1,15 +1,10 @@
 
-const symbolSize = 20;
+const symbolSize = 40;
 const streamsJap =  [];
 const streamsSlav = [];
 
-
-function setup() {
-    createCanvas(window.innerWidth, window.innerHeight);
-
-    background(0);
+function setSymbols(){
     let x = 0;
-    
     for (let i = 0; i <= width / symbolSize; i++) {
         let streams1 = new Stream ();
         streams1.generateSymbolsJap(x, random(-500, 0));
@@ -19,21 +14,22 @@ function setup() {
         streams2.generateSymbolsSlav(x, random(-500, 0));
         streamsSlav.push(streams2);
         x += symbolSize;
-        
     }
 
-    // for (let i = 0; i <= width / symbolSize; i++) {
-        // let streams2 = new Stream ();
-        // streams2.generateSymbolsSlav(x, random(-500, 0));
-        // streamsSlav.push(streams2);
-        // x += symbolSize;
-    // }
+}
+
+function setup() {
+    createCanvas(window.innerWidth, window.innerHeight);
+
+    background(0);
+
+    setSymbols();
         
     textSize(symbolSize);
 }
 
 function draw() {
-    background(0, 150);
+    background(0, 100);
     streamsJap.forEach(function(stream){
         stream.renderJap();
     });
@@ -58,7 +54,7 @@ class Symb {
         //set symbol after every nth frame
         if (frameCount % this.charSwitch == 0){
             this.value = String.fromCharCode(
-            0x30A0 + round(random(0, 96))
+            0x30A0 + round(random(100, 300))
             );
         }
     }
