@@ -1,32 +1,35 @@
-let symb;
+// let symb;
 let symbolSize = 60;
+let stream;
 
 
-function setup(){
+function setup() {
     createCanvas(
         window.innerWidth,
         window.innerHeight
     );
 
     background(0);
+    stream = new Stream();
+    stream.generateSymbols();
 
-    symb = new Symb(
-        width / 2,
-        0,
-        random(5, 10)
+    // symb = new Symb(
+    //     width / 2,
+    //     0,
+    //     random(5, 10)
 
-    );
-    symb.setRandomSymbol();
+    // );
+    // symb.setRandomSymbol();
     textSize(symbolSize);
 }
 
-function draw(){
+function draw() {
     background(0);
-    symb.render();
+    stream.render();
 }
 
-class Symb{
-    constructor(x, y, speed){
+class Symb {
+    constructor(x, y, speed) {
 
         this.x = x;
         this.y = y;
@@ -45,14 +48,7 @@ class Symb{
         }
     }
 
-    render() {
-        fill(0, 255, 70);
-        text(this.value, this.x, this.y);
-        this.rain();
-        this.setRandomSymbol();
-    }
-
-    rain(){
+    rain() {
         // if(this.y >= height){
         //     this.y = 0;
         // } else{
@@ -64,12 +60,31 @@ class Symb{
 }
 
 
+class Stream {
+    constructor() {
+        this.symbols = [];
+        this.totalSymbols = round(random(5, 30));
+        this.speed = random(5, 20);
+    }
 
+    generateSymbols() {
+        let y = 0;
+        let x = width / 2;
 
+        for (let i = 0; i <= this.totalSymbols; i++) {
+            let symbol = new Symb(x, y, this.speed);
+            symbol.setRandomSymbol();
+            this.symbols.push(symbol);
+            y -= symbolSize
+        }
+    }
 
-
-
-
-function stream(){
-
+    render() {
+        this.symbols.forEach(function(symbol){
+            fill(0, 255, 70);
+            text(symbol.value, symbol.x, symbol.y);
+            symbol.rain();
+            symbol.setRandomSymbol();
+        });
+    }
 }
