@@ -1,14 +1,11 @@
 
-const symbolSize = 40;
+const symbolSize = 20;
 const streamsJap =  [];
 const streamsSlav = [];
 
 
 function setup() {
-    createCanvas(
-        window.innerWidth,
-        window.innerHeight
-    );
+    createCanvas(window.innerWidth, window.innerHeight);
 
     background(0);
     let x = 0;
@@ -36,7 +33,7 @@ function setup() {
 }
 
 function draw() {
-    background(0, 150   );
+    background(0, 150);
     streamsJap.forEach(function(stream){
         stream.renderJap();
     });
@@ -46,13 +43,14 @@ function draw() {
 }
 
 class Symb {
-    constructor(x, y, speed) {
+    constructor(x, y, speed, first) {
 
         this.x = x;
         this.y = y;
         this.value;
         this.speed = speed;
         this.charSwitch = round(random(2, 20));
+        this.first = first;
     }
     
     setRandomSymbolJap() {
@@ -70,7 +68,7 @@ class Symb {
         //set symbol after every nth frame
         if (frameCount % this.charSwitch == 0){
             this.value = String.fromCharCode(
-            0x21E + round(random(0, 96))
+            0x21E + round(random(0, 200))
             );
         }
     }
@@ -93,28 +91,34 @@ class Stream {
     }
 
     generateSymbolsJap(x, y) {
-
+        let first = round(random(0, 4)) == 1;
         for (let i = 0; i <= this.totalSymbols; i++) {
-            let symbol = new Symb(x, y, this.speed);
+            let symbol = new Symb(x, y, this.speed, first);
             symbol.setRandomSymbolJap();
             this.symbols.push(symbol);
             y -= symbolSize
+            first = false;
         }
     }
 
     generateSymbolsSlav(x, y) {
-
+        let first = round(random(0, 2)) == 1;
         for (let i = 0; i <= this.totalSymbols; i++) {
-            let symbol = new Symb(x, y, this.speed);
+            let symbol = new Symb(x, y, this.speed, first);
             symbol.setRandomSymbolSlav();
             this.symbols.push(symbol);
             y -= symbolSize
+            first = false;
         }
     }
 
     renderJap() {
         this.symbols.forEach(function(symbol){
-            fill('rgba(0, 255, 70, 1)');
+            if(symbol.first){
+                fill('rgba(180, 255, 180, 1');
+            } else {
+                fill('rgba(0, 255, 70, 1)');
+            }
             text(symbol.value, symbol.x, symbol.y);
             symbol.rainJap();
             symbol.setRandomSymbolJap();
@@ -124,7 +128,11 @@ class Stream {
 
     renderSlav() {
         this.symbols.forEach(function(symbol){
-            fill('rgba(0, 255, 70, 1)');
+            if(symbol.first){
+                fill('rgba(180, 255, 180, 1');
+            } else {
+                fill('rgba(0, 255, 70, 1)');
+            }
             text(symbol.value, symbol.x, symbol.y);
             symbol.rainSlav();
             symbol.setRandomSymbolSlav();
