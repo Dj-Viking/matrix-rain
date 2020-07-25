@@ -113,7 +113,7 @@ class Stream {
             if(symbol.first){
                 fill('rgba(180, 255, 180, 1');
             } else {
-                fill('rgba(0, 255, 70, 1)');
+                fill('rgba(0, 0, 255, 1)');
             }
             text(symbol.value, symbol.x, symbol.y);
             symbol.rainJap();
@@ -127,7 +127,7 @@ class Stream {
             if(symbol.first){
                 fill('rgba(180, 255, 180, 1');
             } else {
-                fill('rgba(0, 255, 70, 1)');
+                fill('rgba(0, 0, 255, 1)');
             }
             text(symbol.value, symbol.x, symbol.y);
             symbol.rainSlav();
